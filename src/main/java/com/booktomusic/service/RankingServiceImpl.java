@@ -67,10 +67,7 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     @Transactional
-    @Scheduled(
-            cron = "0 0 0 * * *",
-            zone = "Asia/Seoul"
-    )
+    @Scheduled(cron = "0 30 4 * * *",zone = "Asia/Seoul")
     public void saveDailyMbtiRanking() {
 
         RankingDto todayRankingDto =
