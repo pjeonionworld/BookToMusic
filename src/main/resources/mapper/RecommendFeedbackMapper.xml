@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.RecommendFeedbackMapper">
+
+    <select id="findRecommendFeedback"
+            resultType="com.booktomusic.dto.RecommendFeedbackDto">
+
+        SELECT
+            rf.recommend_feedback_idx AS recommendFeedbackIdx,
+            rf.member_id AS memberId,
+            rf.recommendation_idx AS recommendationIdx,
+            rf.like_yn AS likeYn,
+            rf.dislike_yn AS dislikeYn,
+            rf.created_at AS createdAt,
+
+            b.book_idx AS bookIdx,
+            b.book_title AS bookTitle,
+            b.book_author AS bookAuthor,
+
+            m.music_idx AS musicIdx,
+            m.music_title AS musicTitle,
+            m.music_artist AS musicArtist,
+            m.music_url AS musicUrl
+
+        FROM recommend_feedback rf
+
+        INNER JOIN recommendation r
+            ON rf.recommendation_idx = r.recommendation_idx
+
+        INNER JOIN book b
+            ON r.book_idx = b.book_idx
+
+        INNER JOIN music m
+            ON r.music_idx = m.music_idx
+
+        WHERE rf.member_id = #{memberId}
+          AND rf.recommendation_idx = #{recommendationIdx}
+
+    </select>
+
+    <select id="countRecommendFeedback"
+            resultType="int">
+
+        SELECT COUNT(*)
+        FROM recommend_feedback
+        WHERE member_id = #{memberId}
+          AND recommendation_idx = #{recommendationIdx}
+
+    </select>
+
+    <insert id="insertRecommendFeedback"
+            parameterType="com.booktomusic.dto.RecommendFeedbackDto"
+            useGeneratedKeys="true"
+            keyProperty="recommendFeedbackIdx">
+
+        INSERT INTO recommend_feedback (
+            member_id,
+            recommendation_idx,
+            like_yn,
+            dislike_yn
+        )
+        VALUES (
+            #{memberId},
+            #{recommendationIdx},
+            #{likeYn},
+            #{dislikeYn}
+        )
+
+    </insert>
+
+    <update id="updateRecommendFeedback"
+            parameterType="com.booktomusic.dto.RecommendFeedbackDto">
+
+        UPDATE recommend_feedback
+        SET
+            like_yn = #{likeYn},
+            dislike_yn = #{dislikeYn}
+        WHERE member_id = #{memberId}
+          AND recommendation_idx = #{recommendationIdx}
+
+    </update>
+    
+    <select id="findLikedRecommendationByMemberId"
+        parameterType="String"
+        resultType="com.booktomusic.dto.RecommendFeedbackDto">
+
+    SELECT
+        rf.recommend_fb AS recommendFb,
+        rf.member_id AS memberId,
+        rf.recommendation_idx AS recommendationIdx,
+        rf.like_yn AS likeYn,
+        rf.dislike_yn AS dislikeYn,
+
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+        m.music_url AS musicUrl
+
+    FROM recommend_feedback rf
+
+    INNER JOIN recommendation r
+        ON rf.recommendation_idx = r.recommendation_idx
+
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+
+    WHERE rf.member_id = #{memberId}
+      AND rf.like_yn = 1
+
+    ORDER BY rf.recommend_fb DESC
+
+	</select>
+
+</mapper>

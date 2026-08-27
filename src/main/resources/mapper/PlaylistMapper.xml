@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.PlaylistMapper">
+
+    <!-- 내 플레이리스트 목록 조회 -->
+    <select id="findPlaylistByMemberId"
+            parameterType="String"
+            resultType="com.booktomusic.dto.PlaylistDto">
+
+        SELECT
+            p.playlist_idx AS playlistIdx,
+            p.member_id AS memberId,
+            p.playlist_name AS playlistName,
+            p.open_yn AS openYn,
+            COUNT(pd.detail_idx) AS musicCount
+
+        FROM playlist p
+
+        LEFT JOIN playlist_detail pd
+            ON p.playlist_idx = pd.playlist_idx
+
+        WHERE p.member_id = #{memberId}
+
+        GROUP BY
+            p.playlist_idx,
+            p.member_id,
+            p.playlist_name,
+            p.open_yn
+
+        ORDER BY p.playlist_idx DESC
+
+    </select>
+
+
+    <!-- 플레이리스트 생성 -->
+    <insert id="insertPlaylist"
+            parameterType="com.booktomusic.dto.PlaylistDto"
+            useGeneratedKeys="true"
+            keyProperty="playlistIdx">
+
+        INSERT INTO playlist (
+            member_id,
+            playlist_name,
+            open_yn
+        )
+        VALUES (
+            #{memberId},
+            #{playlistName},
+            #{openYn}
+        )
+
+    </insert>
+
+
+    <!-- 플레이리스트에 추천 결과 추가 -->
+    <insert id="insertPlaylistDetail"
+            parameterType="com.booktomusic.dto.PlaylistDetailDto"
+            useGeneratedKeys="true"
+            keyProperty="detailIdx">
+
+        INSERT INTO playlist_detail (
+            playlist_idx,
+            recommendation_idx
+        )
+        VALUES (
+            #{playlistIdx},
+            #{recommendationIdx}
+        )
+
+    </insert>
+
+
+    <!-- 플레이리스트 상세 조회 -->
+<select id="findPlaylistDetailByPlaylistIdx"
+        parameterType="int"
+        resultType="com.booktomusic.dto.PlaylistDetailDto">
+
+    SELECT
+        pd.detail_idx AS detailIdx,
+        pd.playlist_idx AS playlistIdx,
+        pd.recommendation_idx AS recommendationIdx,
+
+        p.playlist_name AS playlistName,
+        p.description AS description,
+        mb.member_name AS memberName,
+
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+        m.music_url AS musicUrl
+
+    FROM playlist_detail pd
+
+    INNER JOIN playlist p
+        ON pd.playlist_idx = p.playlist_idx
+        
+    INNER JOIN member mb
+        ON p.member_id = mb.member_id
+
+    INNER JOIN recommendation r
+        ON pd.recommendation_idx = r.recommendation_idx
+
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+
+    WHERE pd.playlist_idx = #{playlistIdx}
+
+    ORDER BY pd.detail_idx DESC
+
+	</select>
+	
+	<!-- 플레이리스트 공개 여부 변경 -->
+	<update id="updatePlaylistOpenYn">
+    	UPDATE playlist
+    	SET open_yn = #{openYn}
+    	WHERE playlist_idx = #{playlistIdx}
+	</update>
+
+
+	<!-- 플레이리스트 이름 수정 -->
+	<update id="updatePlaylistName">
+    	UPDATE playlist
+    	SET playlist_name = #{playlistName}
+    	WHERE playlist_idx = #{playlistIdx}
+	</update>
+
+
+	<!-- 플레이리스트 상세 전체 삭제 -->
+	<delete id="deletePlaylistDetailByPlaylistIdx">
+    	DELETE FROM playlist_detail
+	    WHERE playlist_idx = #{playlistIdx}
+	</delete>
+
+
+	<!-- 플레이리스트 삭제 -->
+	<delete id="deletePlaylist">
+    	DELETE FROM playlist
+    	WHERE playlist_idx = #{playlistIdx}
+	</delete>
+	
+	<!-- 플레이리스트 상세 개별 삭제 -->
+	<delete id="deletePlaylistDetail">
+    	DELETE FROM playlist_detail
+    	WHERE detail_idx = #{detailIdx}
+	</delete>
+	
+	<!-- Playlist Lounge 공개 플레이리스트 조회 -->
+<select id="findOpenPlaylist"
+        resultType="com.booktomusic.dto.PlaylistDto">
+
+    SELECT
+        p.playlist_idx AS playlistIdx,
+        p.member_id AS memberId,
+        p.playlist_name AS playlistName,
+        p.open_yn AS openYn,
+        p.description AS description,
+
+        m.member_name AS memberName,
+        md.mbti AS mbti,
+
+        COUNT(pd.detail_idx) AS musicCount
+
+    FROM playlist p
+
+    INNER JOIN member m
+        ON p.member_id = m.member_id
+
+    LEFT JOIN member_detail md
+        ON p.member_id = md.member_id
+
+    LEFT JOIN playlist_detail pd
+        ON p.playlist_idx = pd.playlist_idx
+
+    WHERE p.open_yn = 1
+
+    GROUP BY
+        p.playlist_idx,
+        p.member_id,
+        p.playlist_name,
+        p.open_yn,
+        p.description,
+        m.member_name,
+        md.mbti
+
+    ORDER BY
+        CASE
+            WHEN p.member_id = #{memberId} THEN 0
+            ELSE 1
+        END,
+        p.playlist_idx DESC
+
+</select>
+
+
+<!-- 플레이리스트 설명 수정 -->
+	<update id="updatePlaylistDescription">
+
+    	UPDATE playlist
+    	SET description = #{description}
+    	WHERE playlist_idx = #{playlistIdx}
+
+	</update>
+
+</mapper>

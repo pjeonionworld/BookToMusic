@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.RankingMapper">
+
+    <select id="selectTopBookByMbti"
+            parameterType="string"
+            resultType="com.booktomusic.dto.RankingDto">
+
+        SELECT
+            md.mbti AS mbti,
+            b.book_idx AS bookIdx,
+            b.book_title AS bookTitle,
+            b.book_author AS bookAuthor,
+            COUNT(r.recommendation_idx) AS recommendationCount
+        FROM recommendation r
+        INNER JOIN member_detail md
+            ON r.member_id = md.member_id
+        INNER JOIN book b
+            ON r.book_idx = b.book_idx
+        WHERE md.mbti = #{mbti}
+        GROUP BY
+            md.mbti,
+            b.book_idx,
+            b.book_title,
+            b.book_author
+        ORDER BY
+            recommendationCount DESC,
+            b.book_idx ASC
+        LIMIT 1
+
+    </select>
+    
+    <insert id="insertDailyMbtiRanking"
+        parameterType="com.booktomusic.dto.RankingDto"
+        useGeneratedKeys="true"
+        keyProperty="rankingIdx">
+
+    INSERT INTO daily_mbti_ranking (
+        ranking_date,
+        mbti,
+        book_idx,
+        recommendation_count
+    )
+    VALUES (
+        #{rankingDate},
+        #{mbti},
+        #{bookIdx},
+        #{recommendationCount}
+    )
+
+	</insert>
+	
+	<select id="selectTodayMbtiRanking"
+        resultType="com.booktomusic.dto.RankingDto">
+
+    SELECT
+        dmr.ranking_idx AS rankingIdx,
+        dmr.ranking_date AS rankingDate,
+        dmr.mbti AS mbti,
+        dmr.book_idx AS bookIdx,
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+        dmr.recommendation_count AS recommendationCount
+    FROM daily_mbti_ranking dmr
+    INNER JOIN book b
+        ON dmr.book_idx = b.book_idx
+    WHERE dmr.ranking_date = CURDATE()
+    LIMIT 1
+
+	</select>
+	
+	<select id="selectBookViewRanking"
+        resultType="com.booktomusic.dto.RankingDto">
+
+    SELECT
+        b.book_idx AS bookIdx,
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+        COUNT(r.recommendation_idx) AS recommendationCount
+    FROM recommendation r
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+    GROUP BY
+        b.book_idx,
+        b.book_title,
+        b.book_author
+    ORDER BY
+        recommendationCount DESC,
+        b.book_idx ASC
+    LIMIT 10
+
+	</select>
+	
+	<select id="selectMusicViewRanking"
+        resultType="com.booktomusic.dto.RankingDto">
+
+    SELECT
+        MIN(m.music_idx) AS musicIdx,
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+        MAX(m.music_url) AS musicUrl,
+        COUNT(r.recommendation_idx) AS recommendationCount
+    FROM recommendation r
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+    GROUP BY
+        m.music_title,
+        m.music_artist
+    ORDER BY
+        recommendationCount DESC,
+        musicIdx ASC
+    LIMIT 10
+
+	</select>
+	
+	<select id="selectRecommendationLikeRanking"
+        resultType="com.booktomusic.dto.RankingDto">
+
+    SELECT
+        b.book_idx AS bookIdx,
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+
+        MIN(m.music_idx) AS musicIdx,
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+        MAX(m.music_url) AS musicUrl,
+
+        COUNT(rf.recommend_fb) AS recommendationCount
+
+    FROM recommendation r
+
+    INNER JOIN recommend_feedback rf
+        ON r.recommendation_idx = rf.recommendation_idx
+
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+
+    WHERE rf.like_yn = 1
+
+    GROUP BY
+        b.book_idx,
+        b.book_title,
+        b.book_author,
+        m.music_title,
+        m.music_artist
+
+    ORDER BY
+        recommendationCount DESC,
+        bookIdx ASC,
+        musicIdx ASC
+
+    LIMIT 10
+
+	</select>
+	
+	<select id="selectMbtiRanking"
+        resultType="com.booktomusic.dto.RankingDto">
+
+    SELECT
+        r.book_idx AS bookIdx,
+        MIN(r.music_idx) AS musicIdx,
+
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+
+        COUNT(r.recommendation_idx) AS recommendationCount
+
+    FROM recommendation r
+
+    INNER JOIN member_detail md
+        ON r.member_id = md.member_id
+
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+
+    WHERE md.mbti LIKE #{mbti}
+
+    GROUP BY
+        r.book_idx,
+        b.book_title,
+        b.book_author,
+        m.music_title,
+        m.music_artist
+
+    ORDER BY
+        recommendationCount DESC,
+        r.book_idx ASC
+    LIMIT 10
+
+	</select>
+	
+
+</mapper>

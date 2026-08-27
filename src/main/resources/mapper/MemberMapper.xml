@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.MemberMapper">
+
+    <insert id="signUp"
+            parameterType="com.booktomusic.dto.MemberDto">
+
+        INSERT INTO member (
+            member_id,
+            member_pw,
+            member_name
+        )
+        VALUES (
+            #{memberId},
+            #{memberPw},
+            #{memberName}
+        )
+
+    </insert>
+
+    <select id="logIn"
+            parameterType="string"
+            resultType="com.booktomusic.dto.MemberDto">
+
+        SELECT
+            member_id AS memberId,
+            member_pw AS memberPw,
+            member_name AS memberName,
+            created_at AS createdAt
+        FROM member
+        WHERE member_id = #{memberId}
+
+    </select>
+    
+    <insert id="insertMemberDetail"
+        parameterType="com.booktomusic.dto.MemberDto">
+
+    INSERT INTO member_detail (
+        member_id,
+        mbti,
+        lyrics_preference
+    )
+    VALUES (
+        #{memberId},
+        #{mbti},
+        #{lyricsPreference}
+    )
+	</insert>
+	
+	<select id="findMemberDetailById"
+        parameterType="string"
+        resultType="com.booktomusic.dto.MemberDto">
+    SELECT
+        member_id AS memberId,
+        mbti,
+        lyrics_preference AS lyricsPreference
+    FROM member_detail
+    WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원정보 조회 -->
+<select id="findMemberInfoByMemberId"
+        parameterType="String"
+        resultType="com.booktomusic.dto.MemberDto">
+
+    SELECT
+        m.member_id AS memberId,
+        m.member_name AS memberName,
+
+        md.mbti AS mbti,
+        md.lyrics_preference AS lyricsPreference
+
+    FROM member m
+
+    LEFT JOIN member_detail md
+        ON m.member_id = md.member_id
+
+    WHERE m.member_id = #{memberId}
+
+	</select>
+	
+	<!-- member 회원정보 수정 -->
+	<update id="updateMemberInfo"
+        parameterType="com.booktomusic.dto.MemberDto">
+
+    	UPDATE member
+    	SET member_name = #{memberName}
+    	WHERE member_id = #{memberId}
+	</update>
+	
+	<!-- member_detail 회원정보 수정 -->
+	<update id="updateMemberDetail"
+        parameterType="com.booktomusic.dto.MemberDto">
+
+    	UPDATE member_detail
+    	SET
+        	mbti = #{mbti},
+        	lyrics_preference = #{lyricsPreference}
+    	WHERE member_id = #{memberId}
+	</update>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+
+    	UPDATE member
+    	SET member_pw = #{memberPw}
+    	WHERE member_id = #{memberId}
+	</update>
+	
+
+</mapper>

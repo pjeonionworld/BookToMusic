@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.RecommendationMapper">
+
+    <insert id="insertRecommendation"
+            parameterType="com.booktomusic.dto.RecommendationDto"
+            useGeneratedKeys="true"
+            keyProperty="recommendationIdx">
+
+        INSERT INTO recommendation (
+            member_id,
+            book_idx,
+            music_idx
+        )
+        VALUES (
+            #{memberId},
+            #{bookIdx},
+            #{musicIdx}
+        )
+
+    </insert>
+
+    <select id="findRecommendationByIdx"
+            parameterType="int"
+            resultType="com.booktomusic.dto.RecommendationDto">
+
+        SELECT
+            r.recommendation_idx AS recommendationIdx,
+            r.member_id AS memberId,
+            r.book_idx AS bookIdx,
+            r.music_idx AS musicIdx,
+
+            b.book_title AS bookTitle,
+            b.book_author AS bookAuthor,
+
+            m.music_title AS musicTitle,
+            m.music_artist AS musicArtist,
+            m.music_url AS musicUrl,
+            m.music_image_url AS musicImageUrl
+
+        FROM recommendation r
+        INNER JOIN book b ON r.book_idx = b.book_idx
+        INNER JOIN music m ON r.music_idx = m.music_idx
+
+        WHERE r.recommendation_idx = #{recommendationIdx}
+
+    </select>
+    
+    <select id="findRecommendationHistoryByMemberId"
+        parameterType="String"
+        resultType="com.booktomusic.dto.RecommendationDto">
+
+    SELECT
+        r.recommendation_idx AS recommendationIdx,
+        r.member_id AS memberId,
+        r.book_idx AS bookIdx,
+        r.music_idx AS musicIdx,
+        r.created_at AS createdAt,
+
+        b.book_title AS bookTitle,
+        b.book_author AS bookAuthor,
+
+        m.music_title AS musicTitle,
+        m.music_artist AS musicArtist,
+        m.music_url AS musicUrl
+
+    FROM recommendation r
+
+    INNER JOIN book b
+        ON r.book_idx = b.book_idx
+
+    INNER JOIN music m
+        ON r.music_idx = m.music_idx
+
+    WHERE r.member_id = #{memberId}
+
+    ORDER BY r.created_at DESC
+
+	</select>
+
+</mapper>

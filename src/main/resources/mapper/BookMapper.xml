@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.booktomusic.mapper.BookMapper">
+
+    <insert id="insertBook"
+            parameterType="com.booktomusic.dto.BookDto"
+            useGeneratedKeys="true"
+            keyProperty="bookIdx">
+
+        INSERT INTO book (
+            isbn,
+            book_title,
+            book_author,
+            publisher,
+            book_thumbnail,
+            book_contents,
+            published_date
+        )
+        VALUES (
+            #{isbn},
+            #{bookTitle},
+            #{bookAuthor},
+            #{publisher},
+            #{bookThumbnail},
+            #{bookContents},
+            #{publishedDate}
+        )
+
+    </insert>
+
+    <select id="findBookByIsbn"
+            parameterType="string"
+            resultType="com.booktomusic.dto.BookDto">
+
+        SELECT
+            book_idx AS bookIdx,
+            isbn,
+            book_title AS bookTitle,
+            book_author AS bookAuthor,
+            publisher,
+            book_thumbnail AS bookThumbnail,
+            book_contents AS bookContents,
+            published_date AS publishedDate,
+            created_at AS createdAt
+        FROM book
+        WHERE isbn = #{isbn}
+
+    </select>
+
+</mapper>
