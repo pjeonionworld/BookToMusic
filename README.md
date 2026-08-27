@@ -1,7 +1,8 @@
-<h2 align="center">첫번째 개인 프로젝트 "BookToMusic"</h2>
+<h1 align="center">첫번째 개인 프로젝트 "📖BookToMusic🎧"</h1>
 
 <div>
 <br>
+  
 ## 📖 Overview
 
 우리 삶에서 책과 음악은 각각의 의미를 갖습니다.  
