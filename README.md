@@ -1,13 +1,8 @@
 <h2 align="center">첫번째 개인 프로젝트 "BookToMusic"</h2>
 
-<h3>🛠 Tech Stack</h3>
-<img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white">
-<img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white">
-
 <div>
-  <br>
-  ## 📖 Overview
+<br>
+## 📖 Overview
 
 우리 삶에서 책과 음악은 각각의 의미를 갖습니다.  
 BookToMusic은 두 콘텐츠가 유기적으로 연결될 때
@@ -40,10 +35,12 @@ AI를 활용하여 책의 분위기에 어울리는 음악을 추천합니다.
 <img width="2000" height="1125" alt="image" src="https://github.com/user-attachments/assets/0e97aaf6-50d6-474b-b8af-4601d0ec832d" />
 <img width="2000" height="1125" alt="image" src="https://github.com/user-attachments/assets/93aeadb7-197e-4f3b-ba8a-32a4b022f6c3" />
 
-
-<p>main page- web</p>
+<div>
+<br>
+<h3>main page- web</h3>
 <img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/64068c36-6476-431a-8a63-239e3371b129" />
 
-
-<p>result page- web</p>
+<br>
+<h3>result page- web</h3>
 <img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/b85c2d28-5f7e-4498-9cf8-6490ca7ad498" />
+</div>
