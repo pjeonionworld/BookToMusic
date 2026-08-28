@@ -26,8 +26,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
 
-        String encodedPassword =
-                passwordEncoder.encode(memberDto.getMemberPw());
+        String encodedPassword = passwordEncoder.encode(memberDto.getMemberPw());
 
         memberDto.setMemberPw(encodedPassword);
 
@@ -57,16 +56,12 @@ public class MemberServiceImpl implements MemberService {
             return null;
         }
 
-        boolean passwordMatches = passwordEncoder.matches(
-                memberDto.getMemberPw(),
-                savedMember.getMemberPw()
-        );
+        boolean passwordMatches = passwordEncoder.matches( memberDto.getMemberPw(), savedMember.getMemberPw());
 
         if (!passwordMatches) {
             return null;
         }
 
-        // 비밀번호가 외부로 반환되지 않도록 제거
         savedMember.setMemberPw(null);
 
         return savedMember;
@@ -74,10 +69,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean isDuplicateId(String memberId) {
-
-        MemberDto member =
-                memberMapper.logIn(memberId);
-
+        MemberDto member =memberMapper.logIn(memberId);
         return member != null;
     }
     
@@ -86,7 +78,6 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.findMemberDetailById(memberId);
     }
     
-    //회원정보 변경
     @Override
     public MemberDto findMemberInfoByMemberId(String memberId) {
         return memberMapper.findMemberInfoByMemberId(memberId);
@@ -99,8 +90,6 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.updateMemberDetail(memberDto);
     }
     
-    
-    //비밀번호 변경
     @Override
     public void changePassword(MemberDto memberDto) {
 
@@ -111,10 +100,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalArgumentException("회원정보를 찾을 수 없습니다.");
         }
 
-        if (!passwordEncoder.matches(
-                memberDto.getCurrentPassword(),
-                member.getMemberPw())) {
-
+        if (!passwordEncoder.matches(memberDto.getCurrentPassword(), member.getMemberPw())) {
             throw new IllegalArgumentException(
                     "현재 비밀번호가 일치하지 않습니다."
             );
@@ -122,7 +108,6 @@ public class MemberServiceImpl implements MemberService {
 
         if (memberDto.getNewPassword() == null ||
                 memberDto.getNewPassword().isBlank()) {
-
             throw new IllegalArgumentException(
                     "변경할 비밀번호를 입력해주세요."
             );
@@ -130,7 +115,6 @@ public class MemberServiceImpl implements MemberService {
 
         if (!memberDto.getNewPassword()
                 .equals(memberDto.getNewPasswordConfirm())) {
-
             throw new IllegalArgumentException(
                     "변경할 비밀번호가 일치하지 않습니다."
             );
@@ -138,16 +122,14 @@ public class MemberServiceImpl implements MemberService {
 
         String pwRegex =
                 "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
-
         if (!memberDto.getNewPassword().matches(pwRegex)) {
             throw new IllegalArgumentException(
                     "비밀번호는 영문과 숫자를 포함한 8자 이상이어야 합니다."
             );
         }
 
-        String encodedPassword =
-                passwordEncoder.encode(memberDto.getNewPassword());
-
+        String encodedPassword =passwordEncoder.encode(memberDto.getNewPassword());
+        
         memberMapper.updatePassword(
                 memberDto.getMemberId(),
                 encodedPassword

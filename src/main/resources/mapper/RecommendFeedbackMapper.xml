@@ -5,8 +5,7 @@
 
 <mapper namespace="com.booktomusic.mapper.RecommendFeedbackMapper">
 
-    <select id="findRecommendFeedback"
-            resultType="com.booktomusic.dto.RecommendFeedbackDto">
+    <select id="findRecommendFeedback" resultType="com.booktomusic.dto.RecommendFeedbackDto">
 
         SELECT
             rf.recommend_feedback_idx AS recommendFeedbackIdx,
@@ -51,10 +50,7 @@
 
     </select>
 
-    <insert id="insertRecommendFeedback"
-            parameterType="com.booktomusic.dto.RecommendFeedbackDto"
-            useGeneratedKeys="true"
-            keyProperty="recommendFeedbackIdx">
+    <insert id="insertRecommendFeedback" parameterType="com.booktomusic.dto.RecommendFeedbackDto" useGeneratedKeys="true" keyProperty="recommendFeedbackIdx">
 
         INSERT INTO recommend_feedback (
             member_id,
@@ -71,8 +67,7 @@
 
     </insert>
 
-    <update id="updateRecommendFeedback"
-            parameterType="com.booktomusic.dto.RecommendFeedbackDto">
+    <update id="updateRecommendFeedback" parameterType="com.booktomusic.dto.RecommendFeedbackDto">
 
         UPDATE recommend_feedback
         SET
@@ -83,9 +78,7 @@
 
     </update>
     
-    <select id="findLikedRecommendationByMemberId"
-        parameterType="String"
-        resultType="com.booktomusic.dto.RecommendFeedbackDto">
+    <select id="findLikedRecommendationByMemberId" parameterType="String" resultType="com.booktomusic.dto.RecommendFeedbackDto">
 
     SELECT
         rf.recommend_fb AS recommendFb,

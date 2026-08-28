@@ -20,8 +20,6 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-
-    // 회원정보 조회
     @GetMapping("/info")
     public MemberDto getMemberInfo(
             @RequestParam("memberId") String memberId) {
@@ -29,8 +27,6 @@ public class MemberController {
         return memberService.findMemberInfoByMemberId(memberId);
     }
 
-
-    // 회원정보 수정
     @PutMapping("/info")
     public void updateMemberInfo(
             @RequestBody MemberDto memberDto) {

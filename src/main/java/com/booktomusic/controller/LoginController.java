@@ -26,7 +26,6 @@ public class LoginController {
         this.jwtUtil = jwtUtil;
     }
 
-    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<Map<String, Object>> signUp(
             @RequestBody MemberDto memberDto) {
@@ -57,7 +56,6 @@ public class LoginController {
         }
     }
 
-    // 로그인
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> logIn(
             @RequestBody MemberDto memberDto) {
@@ -83,8 +81,6 @@ public class LoginController {
         return ResponseEntity.ok(response);
     }
     
-    
- // 비밀번호 변경
     @PutMapping("/password")
     public ResponseEntity<?> changePassword(
             @RequestBody MemberDto memberDto) {

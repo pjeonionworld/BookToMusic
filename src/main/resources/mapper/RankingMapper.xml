@@ -5,9 +5,7 @@
 
 <mapper namespace="com.booktomusic.mapper.RankingMapper">
 
-    <select id="selectTopBookByMbti"
-            parameterType="string"
-            resultType="com.booktomusic.dto.RankingDto">
+    <select id="selectTopBookByMbti" parameterType="string" resultType="com.booktomusic.dto.RankingDto">
 
         SELECT
             md.mbti AS mbti,
@@ -33,10 +31,7 @@
 
     </select>
     
-    <insert id="insertDailyMbtiRanking"
-        parameterType="com.booktomusic.dto.RankingDto"
-        useGeneratedKeys="true"
-        keyProperty="rankingIdx">
+    <insert id="insertDailyMbtiRanking" parameterType="com.booktomusic.dto.RankingDto" useGeneratedKeys="true" keyProperty="rankingIdx">
 
     INSERT INTO daily_mbti_ranking (
         ranking_date,
@@ -53,8 +48,7 @@
 
 	</insert>
 	
-	<select id="selectTodayMbtiRanking"
-        resultType="com.booktomusic.dto.RankingDto">
+	<select id="selectTodayMbtiRanking" resultType="com.booktomusic.dto.RankingDto">
 
     SELECT
         dmr.ranking_idx AS rankingIdx,
@@ -72,8 +66,7 @@
 
 	</select>
 	
-	<select id="selectBookViewRanking"
-        resultType="com.booktomusic.dto.RankingDto">
+	<select id="selectBookViewRanking" resultType="com.booktomusic.dto.RankingDto">
 
     SELECT
         b.book_idx AS bookIdx,
@@ -94,8 +87,7 @@
 
 	</select>
 	
-	<select id="selectMusicViewRanking"
-        resultType="com.booktomusic.dto.RankingDto">
+	<select id="selectMusicViewRanking" resultType="com.booktomusic.dto.RankingDto">
 
     SELECT
         MIN(m.music_idx) AS musicIdx,
@@ -116,8 +108,7 @@
 
 	</select>
 	
-	<select id="selectRecommendationLikeRanking"
-        resultType="com.booktomusic.dto.RankingDto">
+	<select id="selectRecommendationLikeRanking" resultType="com.booktomusic.dto.RankingDto">
 
     SELECT
         b.book_idx AS bookIdx,
@@ -160,8 +151,7 @@
 
 	</select>
 	
-	<select id="selectMbtiRanking"
-        resultType="com.booktomusic.dto.RankingDto">
+	<select id="selectMbtiRanking" resultType="com.booktomusic.dto.RankingDto">
 
     SELECT
         r.book_idx AS bookIdx,

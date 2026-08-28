@@ -36,20 +36,16 @@ public class RankingController {
         return rankingService.getTodayMbtiRanking();
     }
     
-    
- // 책 조회 랭킹
     @GetMapping("/book")
     public List<RankingDto> getBookViewRanking() {
         return rankingService.getBookViewRanking();
     }
 
-    // 음악 조회 랭킹
     @GetMapping("/music")
     public List<RankingDto> getMusicViewRanking() {
         return rankingService.getMusicViewRanking();
     }
 
-    // 추천 결과 좋아요 랭킹
     @GetMapping("/recommendation")
     public List<RankingDto> getRecommendationLikeRanking() {
         return rankingService.getRecommendationLikeRanking();

@@ -21,15 +21,9 @@ public class RecommendFeedbackServiceImpl
     }
 
     @Override
-    public RecommendFeedbackDto getRecommendFeedback(
-            String memberId,
-            int recommendationIdx) {
+    public RecommendFeedbackDto getRecommendFeedback(String memberId,int recommendationIdx) {
 
-        int feedbackCount =
-                recommendFeedbackMapper.countRecommendFeedback(
-                        memberId,
-                        recommendationIdx
-                );
+        int feedbackCount =recommendFeedbackMapper.countRecommendFeedback(memberId,recommendationIdx);
 
         if (feedbackCount == 0) {
             return null;
@@ -51,11 +45,9 @@ public class RecommendFeedbackServiceImpl
     public int saveRecommendFeedback(
             RecommendFeedbackDto recommendFeedbackDto) {
 
-        int feedbackCount =
-                recommendFeedbackMapper.countRecommendFeedback(
+        int feedbackCount =recommendFeedbackMapper.countRecommendFeedback(
                         recommendFeedbackDto.getMemberId(),
-                        recommendFeedbackDto.getRecommendationIdx()
-                );
+                        recommendFeedbackDto.getRecommendationIdx());
 
         if (feedbackCount == 0) {
             return recommendFeedbackMapper.insertRecommendFeedback(

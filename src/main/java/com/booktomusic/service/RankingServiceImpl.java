@@ -18,22 +18,8 @@ import com.booktomusic.service.RankingService;
 public class RankingServiceImpl implements RankingService {
 
     private static final List<String> MBTI_LIST = List.of(
-            "ISTJ",
-            "ISFJ",
-            "INFJ",
-            "INTJ",
-            "ISTP",
-            "ISFP",
-            "INFP",
-            "INTP",
-            "ESTP",
-            "ESFP",
-            "ENFP",
-            "ENTP",
-            "ESTJ",
-            "ESFJ",
-            "ENFJ",
-            "ENTJ"
+            "ISTJ","ISFJ","INFJ","INTJ","ISTP","ISFP","INFP","INTP",
+            "ESTP","ESFP","ENFP","ENTP","ESTJ","ESFJ","ENFJ","ENTJ"
     );
 
     private final RankingMapper rankingMapper;
@@ -45,69 +31,49 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public RankingDto getRandomMbtiTopBook() {
 
-        List<String> shuffledMbtiList =
-                new ArrayList<>(MBTI_LIST);
+        List<String> shuffledMbtiList =new ArrayList<>(MBTI_LIST);
 
         Collections.shuffle(shuffledMbtiList);
 
         for (String mbti : shuffledMbtiList) {
-
-            RankingDto rankingDto =
-                    rankingMapper.selectTopBookByMbti(mbti);
+            RankingDto rankingDto =rankingMapper.selectTopBookByMbti(mbti);
 
             if (rankingDto != null) {
                 return rankingDto;
             }
         }
 
-        throw new IllegalStateException(
-                "MBTI별 책 추천 기록이 존재하지 않습니다."
-        );
+        throw new IllegalStateException("MBTI별 책 추천 기록이 존재하지 않습니다.");
     }
-
+    
+    //데일리 랭킹 배치 로직 o_O!!
     @Override
     @Transactional
     @Scheduled(cron = "0 30 4 * * *",zone = "Asia/Seoul")
     public void saveDailyMbtiRanking() {
 
-        RankingDto todayRankingDto =
-                rankingMapper.selectTodayMbtiRanking();
+        RankingDto todayRankingDto =rankingMapper.selectTodayMbtiRanking();
 
         if (todayRankingDto != null) {
             return;
         }
 
-        RankingDto rankingDto =
-                getRandomMbtiTopBook();
-
-        rankingDto.setRankingDate(
-                LocalDate.now(
-                        ZoneId.of("Asia/Seoul")
-                )
-        );
-
-        int insertResult =
-                rankingMapper.insertDailyMbtiRanking(
-                        rankingDto
-                );
+        RankingDto rankingDto =getRandomMbtiTopBook();
+        rankingDto.setRankingDate(LocalDate.now(ZoneId.of("Asia/Seoul")));
+        int insertResult =rankingMapper.insertDailyMbtiRanking(rankingDto);
 
         if (insertResult != 1) {
-            throw new IllegalStateException(
-                    "오늘의 MBTI 책 랭킹 저장에 실패했습니다."
-            );
+            throw new IllegalStateException("오늘의 MBTI 책 랭킹 저장에 실패했습니다.");
         }
     }
 
     @Override
     public RankingDto getTodayMbtiRanking() {
 
-        RankingDto rankingDto =
-                rankingMapper.selectTodayMbtiRanking();
+        RankingDto rankingDto =rankingMapper.selectTodayMbtiRanking();
 
         if (rankingDto == null) {
-            throw new IllegalStateException(
-                    "오늘의 MBTI 책 랭킹이 존재하지 않습니다."
-            );
+            throw new IllegalStateException("오늘의 MBTI 책 랭킹이 존재하지 않습니다.");
         }
 
         return rankingDto;

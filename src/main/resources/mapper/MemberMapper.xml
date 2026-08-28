@@ -5,8 +5,7 @@
 
 <mapper namespace="com.booktomusic.mapper.MemberMapper">
 
-    <insert id="signUp"
-            parameterType="com.booktomusic.dto.MemberDto">
+    <insert id="signUp" parameterType="com.booktomusic.dto.MemberDto">
 
         INSERT INTO member (
             member_id,
@@ -21,9 +20,7 @@
 
     </insert>
 
-    <select id="logIn"
-            parameterType="string"
-            resultType="com.booktomusic.dto.MemberDto">
+    <select id="logIn" parameterType="string" resultType="com.booktomusic.dto.MemberDto">
 
         SELECT
             member_id AS memberId,
@@ -35,8 +32,7 @@
 
     </select>
     
-    <insert id="insertMemberDetail"
-        parameterType="com.booktomusic.dto.MemberDto">
+    <insert id="insertMemberDetail" parameterType="com.booktomusic.dto.MemberDto">
 
     INSERT INTO member_detail (
         member_id,
@@ -50,9 +46,7 @@
     )
 	</insert>
 	
-	<select id="findMemberDetailById"
-        parameterType="string"
-        resultType="com.booktomusic.dto.MemberDto">
+	<select id="findMemberDetailById" parameterType="string" resultType="com.booktomusic.dto.MemberDto">
     SELECT
         member_id AS memberId,
         mbti,
@@ -61,10 +55,7 @@
     WHERE member_id = #{memberId}
 	</select>
 	
-	<!-- 회원정보 조회 -->
-<select id="findMemberInfoByMemberId"
-        parameterType="String"
-        resultType="com.booktomusic.dto.MemberDto">
+	<select id="findMemberInfoByMemberId" parameterType="String" resultType="com.booktomusic.dto.MemberDto">
 
     SELECT
         m.member_id AS memberId,
@@ -82,18 +73,14 @@
 
 	</select>
 	
-	<!-- member 회원정보 수정 -->
-	<update id="updateMemberInfo"
-        parameterType="com.booktomusic.dto.MemberDto">
+	<update id="updateMemberInfo" parameterType="com.booktomusic.dto.MemberDto">
 
     	UPDATE member
     	SET member_name = #{memberName}
     	WHERE member_id = #{memberId}
 	</update>
 	
-	<!-- member_detail 회원정보 수정 -->
-	<update id="updateMemberDetail"
-        parameterType="com.booktomusic.dto.MemberDto">
+	<update id="updateMemberDetail" parameterType="com.booktomusic.dto.MemberDto">
 
     	UPDATE member_detail
     	SET
@@ -102,7 +89,6 @@
     	WHERE member_id = #{memberId}
 	</update>
 	
-	<!-- 비밀번호 변경 -->
 	<update id="updatePassword">
 
     	UPDATE member

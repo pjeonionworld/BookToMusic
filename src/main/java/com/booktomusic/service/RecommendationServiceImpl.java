@@ -20,13 +20,10 @@ public class RecommendationServiceImpl
     }
 
     @Override
-    public RecommendationDto getRecommendation(
-            int recommendationIdx) {
+    public RecommendationDto getRecommendation(int recommendationIdx) {
 
         RecommendationDto recommendationDto =
-                recommendationMapper.findRecommendationByIdx(
-                        recommendationIdx
-                );
+                recommendationMapper.findRecommendationByIdx(recommendationIdx);
 
         if (recommendationDto == null) {
             throw new IllegalStateException(

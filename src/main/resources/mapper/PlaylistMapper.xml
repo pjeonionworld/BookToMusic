@@ -7,9 +7,7 @@
 <mapper namespace="com.booktomusic.mapper.PlaylistMapper">
 
     <!-- 내 플레이리스트 목록 조회 -->
-    <select id="findPlaylistByMemberId"
-            parameterType="String"
-            resultType="com.booktomusic.dto.PlaylistDto">
+    <select id="findPlaylistByMemberId" parameterType="String" resultType="com.booktomusic.dto.PlaylistDto">
 
         SELECT
             p.playlist_idx AS playlistIdx,
@@ -35,12 +33,7 @@
 
     </select>
 
-
-    <!-- 플레이리스트 생성 -->
-    <insert id="insertPlaylist"
-            parameterType="com.booktomusic.dto.PlaylistDto"
-            useGeneratedKeys="true"
-            keyProperty="playlistIdx">
+    <insert id="insertPlaylist" parameterType="com.booktomusic.dto.PlaylistDto" useGeneratedKeys="true" keyProperty="playlistIdx">
 
         INSERT INTO playlist (
             member_id,
@@ -55,12 +48,7 @@
 
     </insert>
 
-
-    <!-- 플레이리스트에 추천 결과 추가 -->
-    <insert id="insertPlaylistDetail"
-            parameterType="com.booktomusic.dto.PlaylistDetailDto"
-            useGeneratedKeys="true"
-            keyProperty="detailIdx">
+    <insert id="insertPlaylistDetail" parameterType="com.booktomusic.dto.PlaylistDetailDto" useGeneratedKeys="true" keyProperty="detailIdx">
 
         INSERT INTO playlist_detail (
             playlist_idx,
@@ -73,11 +61,7 @@
 
     </insert>
 
-
-    <!-- 플레이리스트 상세 조회 -->
-<select id="findPlaylistDetailByPlaylistIdx"
-        parameterType="int"
-        resultType="com.booktomusic.dto.PlaylistDetailDto">
+	<select id="findPlaylistDetailByPlaylistIdx" parameterType="int" resultType="com.booktomusic.dto.PlaylistDetailDto">
 
     SELECT
         pd.detail_idx AS detailIdx,
@@ -118,7 +102,6 @@
 
 	</select>
 	
-	<!-- 플레이리스트 공개 여부 변경 -->
 	<update id="updatePlaylistOpenYn">
     	UPDATE playlist
     	SET open_yn = #{openYn}
@@ -126,7 +109,6 @@
 	</update>
 
 
-	<!-- 플레이리스트 이름 수정 -->
 	<update id="updatePlaylistName">
     	UPDATE playlist
     	SET playlist_name = #{playlistName}
@@ -134,28 +116,23 @@
 	</update>
 
 
-	<!-- 플레이리스트 상세 전체 삭제 -->
 	<delete id="deletePlaylistDetailByPlaylistIdx">
     	DELETE FROM playlist_detail
 	    WHERE playlist_idx = #{playlistIdx}
 	</delete>
 
 
-	<!-- 플레이리스트 삭제 -->
 	<delete id="deletePlaylist">
     	DELETE FROM playlist
     	WHERE playlist_idx = #{playlistIdx}
 	</delete>
 	
-	<!-- 플레이리스트 상세 개별 삭제 -->
 	<delete id="deletePlaylistDetail">
     	DELETE FROM playlist_detail
     	WHERE detail_idx = #{detailIdx}
 	</delete>
 	
-	<!-- Playlist Lounge 공개 플레이리스트 조회 -->
-<select id="findOpenPlaylist"
-        resultType="com.booktomusic.dto.PlaylistDto">
+	<select id="findOpenPlaylist" resultType="com.booktomusic.dto.PlaylistDto">
 
     SELECT
         p.playlist_idx AS playlistIdx,
@@ -198,10 +175,9 @@
         END,
         p.playlist_idx DESC
 
-</select>
+	</select>
 
 
-<!-- 플레이리스트 설명 수정 -->
 	<update id="updatePlaylistDescription">
 
     	UPDATE playlist

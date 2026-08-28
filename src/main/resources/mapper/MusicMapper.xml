@@ -5,9 +5,7 @@
 
 <mapper namespace="com.booktomusic.mapper.MusicMapper">
 
-    <select id="selectMusicByIdx"
-            parameterType="int"
-            resultType="com.booktomusic.dto.MusicDto">
+    <select id="selectMusicByIdx" parameterType="int" resultType="com.booktomusic.dto.MusicDto">
 
         SELECT
             music_idx AS musicIdx,
@@ -20,8 +18,7 @@
 
     </select>
     
-    <select id="selectMusicByTitleAndArtist"
-        resultType="com.booktomusic.dto.MusicDto">
+    <select id="selectMusicByTitleAndArtist" resultType="com.booktomusic.dto.MusicDto">
     SELECT
         music_idx,
         music_title,
@@ -34,11 +31,7 @@
     LIMIT 1
 	</select>
 
-	<insert id="insertMusic"
-        parameterType="com.booktomusic.dto.MusicDto"
-        useGeneratedKeys="true"
-        keyProperty="musicIdx"
-        keyColumn="music_idx">
+	<insert id="insertMusic" parameterType="com.booktomusic.dto.MusicDto" useGeneratedKeys="true" keyProperty="musicIdx" keyColumn="music_idx">
     INSERT INTO music (
         music_title,
         music_artist,

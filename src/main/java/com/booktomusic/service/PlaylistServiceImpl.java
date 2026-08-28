@@ -25,104 +25,60 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     @Transactional
-    public int createPlaylistWithDetail(
-            PlaylistDto playlistDto,
-            int recommendationIdx) {
+    public int createPlaylistWithDetail(PlaylistDto playlistDto,int recommendationIdx) {
 
-        int playlistInsertResult =
-                playlistMapper.insertPlaylist(playlistDto);
+        int playlistInsertResult =playlistMapper.insertPlaylist(playlistDto);
 
         if (playlistInsertResult != 1) {
-            throw new IllegalStateException(
-                    "플레이리스트 생성에 실패했습니다."
-            );
+            throw new IllegalStateException("플레이리스트 생성에 실패했습니다.");
         }
 
-        PlaylistDetailDto playlistDetailDto =
-                new PlaylistDetailDto();
+        PlaylistDetailDto playlistDetailDto =new PlaylistDetailDto();
 
-        playlistDetailDto.setPlaylistIdx(
-                playlistDto.getPlaylistIdx()
-        );
+        playlistDetailDto.setPlaylistIdx(playlistDto.getPlaylistIdx());
+        playlistDetailDto.setRecommendationIdx(recommendationIdx);
 
-        playlistDetailDto.setRecommendationIdx(
-                recommendationIdx
-        );
-
-        int playlistDetailInsertResult =
-                playlistMapper.insertPlaylistDetail(
-                        playlistDetailDto
-                );
+        int playlistDetailInsertResult =playlistMapper.insertPlaylistDetail(playlistDetailDto);
 
         if (playlistDetailInsertResult != 1) {
-            throw new IllegalStateException(
-                    "플레이리스트 상세 저장에 실패했습니다."
-            );
+            throw new IllegalStateException("플레이리스트 상세 저장에 실패했습니다.");
         }
 
         return playlistDetailInsertResult;
     }
 
     @Override
-    public int addPlaylistDetail(
-            PlaylistDetailDto playlistDetailDto) {
-
-        int playlistDetailInsertResult =
-                playlistMapper.insertPlaylistDetail(
-                        playlistDetailDto
-                );
+    public int addPlaylistDetail(PlaylistDetailDto playlistDetailDto) {
+        int playlistDetailInsertResult =playlistMapper.insertPlaylistDetail(playlistDetailDto);
 
         if (playlistDetailInsertResult != 1) {
-            throw new IllegalStateException(
-                    "플레이리스트 추가에 실패했습니다."
-            );
+            throw new IllegalStateException("플레이리스트 추가에 실패했습니다.");
         }
 
         return playlistDetailInsertResult;
     }
 
     @Override
-    public List<PlaylistDetailDto>
-            findPlaylistDetailByPlaylistIdx(
-                    int playlistIdx) {
-
-        return playlistMapper
-                .findPlaylistDetailByPlaylistIdx(
-                        playlistIdx
-                );
+    public List<PlaylistDetailDto>findPlaylistDetailByPlaylistIdx(int playlistIdx) {
+        return playlistMapper.findPlaylistDetailByPlaylistIdx(playlistIdx);
     }
     
     
     @Override
     public int updatePlaylistOpenYn(int playlistIdx, int openYn) {
-        return playlistMapper.updatePlaylistOpenYn(
-                playlistIdx,
-                openYn
-        );
+        return playlistMapper.updatePlaylistOpenYn(playlistIdx,openYn);
     }
 
     @Override
-    public int updatePlaylistName(
-            int playlistIdx,
-            String playlistName) {
-
-        return playlistMapper.updatePlaylistName(
-                playlistIdx,
-                playlistName
-        );
+    public int updatePlaylistName(int playlistIdx,String playlistName) {
+        return playlistMapper.updatePlaylistName(playlistIdx, playlistName);
     }
 
     @Override
     @Transactional
     public int deletePlaylist(int playlistIdx) {
-
-        playlistMapper.deletePlaylistDetailByPlaylistIdx(
-                playlistIdx
-        );
-
-        return playlistMapper.deletePlaylist(
-                playlistIdx
-        );
+        playlistMapper.deletePlaylistDetailByPlaylistIdx(playlistIdx);
+        return playlistMapper.deletePlaylist(playlistIdx);
     }
     
     @Override
@@ -132,18 +88,11 @@ public class PlaylistServiceImpl implements PlaylistService {
     
     @Override
     public List<PlaylistDto> findOpenPlaylist(String memberId) {
-
         return playlistMapper.findOpenPlaylist(memberId);
     }
 
     @Override
-    public int updatePlaylistDescription(
-            int playlistIdx,
-            String description) {
-
-        return playlistMapper.updatePlaylistDescription(
-                playlistIdx,
-                description
-        );
+    public int updatePlaylistDescription(int playlistIdx,String description) {
+        return playlistMapper.updatePlaylistDescription(playlistIdx, description);
     }
 }
