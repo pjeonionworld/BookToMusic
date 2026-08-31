@@ -33,14 +33,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        //비회원도 이용가능한 항목(기본 기능!)
                         .requestMatchers(
-                                "/api/**",
-                                "/api/login/**",
-                                "/api/signup/**",
-                                "/api/recommendation-books/**",
+                                "/api/login/login",
+                                "/api/login/signup",
+                                "/api/book/**",
                                 "/api/music/**",
                                 "/api/music-feedback/**"
                         ).permitAll()
+                        
+                        //조회만 가능해야하는 기능들 o_O!
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/recommendation/**",
+                                "/api/ranking/**",
+                                "/api/playlist/**"
+                            ).permitAll()
                         .anyRequest().authenticated()
                 );
 
