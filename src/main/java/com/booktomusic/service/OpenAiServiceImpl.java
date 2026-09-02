@@ -103,25 +103,11 @@ public class OpenAiServiceImpl implements OpenAiService {
         String mbti,
         String lyricsPreference
     ) {
-        String safeBookTitle = bookTitle != null && !bookTitle.isBlank()
-            ? bookTitle
-            : "정보 없음";
-
-        String safeBookAuthor = bookAuthor != null && !bookAuthor.isBlank()
-            ? bookAuthor
-            : "정보 없음";
-
-        String safeBookContents = bookContents != null && !bookContents.isBlank()
-            ? bookContents
-            : "정보 없음";
-
-        String memberMbti = mbti != null && !mbti.isBlank()
-            ? mbti
-            : "정보 없음";
-
-        String memberLyricsPreference = lyricsPreference != null && !lyricsPreference.isBlank()
-            ? lyricsPreference
-            : "정보 없음";
+        String safeBookTitle = bookTitle != null && !bookTitle.isBlank() ? bookTitle : "정보 없음";
+        String safeBookAuthor = bookAuthor != null && !bookAuthor.isBlank() ? bookAuthor : "정보 없음";
+        String safeBookContents = bookContents != null && !bookContents.isBlank() ? bookContents : "정보 없음";
+        String memberMbti = mbti != null && !mbti.isBlank() ? mbti : "정보 없음";
+        String memberLyricsPreference = lyricsPreference != null && !lyricsPreference.isBlank() ? lyricsPreference : "정보 없음";
 
         return """
             너는 독자가 책에 더욱 몰입할 수 있도록 음악을 추천하는 전문 큐레이터다.

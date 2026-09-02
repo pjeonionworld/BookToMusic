@@ -27,12 +27,12 @@ public class RankingServiceImpl implements RankingService {
     public RankingServiceImpl(RankingMapper rankingMapper) {
         this.rankingMapper = rankingMapper;
     }
-
+    
     @Override
     public RankingDto getRandomMbtiTopBook() {
-
+    	
+    	//데일리 랭킹 랜덤으로 mbti 뽑기
         List<String> shuffledMbtiList =new ArrayList<>(MBTI_LIST);
-
         Collections.shuffle(shuffledMbtiList);
 
         for (String mbti : shuffledMbtiList) {
