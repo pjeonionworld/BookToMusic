@@ -92,7 +92,7 @@ public class OpenAiServiceImpl implements OpenAiService {
             lyricsPreference
         ));
         requestBody.put("text", createResponseFormat());
-
+        
         return requestBody;
     }
 

@@ -49,9 +49,9 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public RecommendationDto saveBook(BookDto requestBookDto, String memberId) {
-
+    	
     	BookDto savedBookDto =findOrSaveBook(requestBookDto);
-        
+    	
         String mbti = null;
         String lyricsPreference = null;
 
@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService {
                 lyricsPreference = memberDetailDto.getLyricsPreference();
             }
         }
-
+        	
         OpenAiResponseDto openAiResponseDto = openAiService.recommendMusic(
         	    savedBookDto.getBookTitle(),
         	    savedBookDto.getBookAuthor(),
@@ -78,20 +78,19 @@ public class BookServiceImpl implements BookService {
         	);
 
         int musicIdx = musicService.saveMusic(musicDto);
-
+        
         RecommendationDto recommendationDto = new RecommendationDto();
 
         recommendationDto.setMemberId(memberId);
         recommendationDto.setBookIdx(savedBookDto.getBookIdx());
         recommendationDto.setMusicIdx(musicIdx);
 
-        int recommendationInsertResult =
-                recommendationMapper.insertRecommendation(recommendationDto);
-
+        int recommendationInsertResult = recommendationMapper.insertRecommendation(recommendationDto);
+        
         if (recommendationInsertResult != 1) {
             throw new IllegalStateException("추천 결과 저장에 실패했습니다.");
         }
-
+        
         return recommendationDto;
     }
     
