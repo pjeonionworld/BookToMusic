@@ -93,6 +93,10 @@ public class OpenAiServiceImpl implements OpenAiService {
         ));
         requestBody.put("text", createResponseFormat());
         
+        Map<String, Object> reasoning = new HashMap<>();
+        reasoning.put("effort", "low");
+        requestBody.put("reasoning", reasoning); 
+
         return requestBody;
     }
 
