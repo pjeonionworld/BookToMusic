@@ -44,4 +44,33 @@ AI를 활용하여 책의 분위기에 어울리는 음악을 추천합니다.
 <br>
 <h3>result page- web</h3>
 <img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/b85c2d28-5f7e-4498-9cf8-6490ca7ad498" />
+
+<br>
+<h3>ranking page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/7ae047ca-1b41-4003-9df0-96f1a4f1d09d" />
+
+
+<br>
+<h3>mbti ranking page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/941d0a1b-3181-4933-9ce2-77ab51a5e207" />
+
+<br>
+<h3>my playlist page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/e95ad3f1-3689-4787-bab1-f2998957381d" />
+
+<br>
+<h3>my playlist detail page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/d800576e-4c43-4c52-8429-de2148205a3b" />
+
+<br>
+<h3>playlist lounge page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/8e8980e8-d125-4eb7-99b8-4090eb956616" />
+
+<br>
+<h3>playlist lounge detail page- web</h3>
+<img width="2880" height="2048" alt="image" src="https://github.com/user-attachments/assets/30d1434e-49dc-4aea-8fbe-76e0cd2bd1bf" />
+
+<br>
+<h3>와이어 프레임</h3>
+<img width="937" height="577" alt="image" src="https://github.com/user-attachments/assets/337e3164-bc31-4939-8d8c-968fbe397272" />
 </div>
